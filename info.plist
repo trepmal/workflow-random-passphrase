@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>kdl-passphrase</string>
+	<key>connections</key>
+	<dict>
+		<key>861F7481-490B-49CA-BBF6-5C3573FFEF70</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>DB57969F-E7E2-4775-B1F3-82AC599836A2</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>641D445A-DA42-4E1A-9DF9-73BA680C0EFC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>FD42F0F3-6033-4B23-8806-7D4D9B7579E6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>E482B633-30A2-4610-AB7C-B798E6864B77</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Make and copy lowercase version</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>EEEED44F-F2C8-40FB-9A13-F80C100F434E</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Paste into frontmost app</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>9E31EE2E-0F49-461D-951D-3B4DE8672411</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>9E31EE2E-0F49-461D-951D-3B4DE8672411</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3BE6E587-3713-455B-8CC7-898EE0E91E6D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>E482B633-30A2-4610-AB7C-B798E6864B77</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A6BD6432-3DDD-457D-A54F-CEDCFD9F95E8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Kailey Lampert</string>
+	<key>description</key>
+	<string>Generate passphrases from your Mac's word list</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Passphrase</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>62</integer>
+				<key>keyword</key>
+				<string>passphrase</string>
+				<key>runningsubtext</key>
+				<string>generating...</string>
+				<key>script</key>
+				<string>require_once('extension_utils.php');
+$utils = new ExtensionUtils();
+
+$q = '{query}';
+
+$d = array( 4, 4, 10 );
+$q = array_filter( explode( ' ', $q ) );
+$q = array_replace( $d, $q );
+list( $num_words, $min_length, $max_length ) = $q;
+
+$words = min_length_array_value( explode( "\n", file_get_contents('/usr/share/dict/words') ), $min_length, $max_length );
+
+$results = array();
+
+for( $i = 1; $i &lt; 10; $i++ ) {
+
+	shuffle( $words );
+	shuffle( $words );
+
+	$phrase = implode( ' ', array_splice( $words, 0, $num_words ) );
+
+	$results[] = array(
+		'title' =&gt; $phrase,
+		'icon' =&gt; "icon.png",
+		'valid' =&gt; '',
+		'uid' =&gt; '',
+		'subtitle' =&gt; 'Copy to clipboard',
+		'arg' =&gt; $phrase
+	);
+}
+
+echo $utils-&gt;toXml( $results );
+
+function min_length_array_value( $array, $minlen = 4, $maxlen = 10 ) {
+	$minlen = intval( $minlen );
+	$maxlen = intval( $maxlen );
+	foreach( $array as $k =&gt; $v ) {
+		if ( strlen( $v ) &lt; $minlen )
+			unset( $array[ $k ] );
+		if ( strlen( $v ) &gt; $maxlen )
+			unset( $array[ $k ] );
+	}
+	return $array;
+}</string>
+				<key>subtext</key>
+				<string>Generate password phrase</string>
+				<key>title</key>
+				<string>Passphrase</string>
+				<key>type</key>
+				<integer>1</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>861F7481-490B-49CA-BBF6-5C3573FFEF70</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>script</key>
+				<string>echo "$(date)::{query}" &gt;&gt; history.txt</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>DB57969F-E7E2-4775-B1F3-82AC599836A2</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>641D445A-DA42-4E1A-9DF9-73BA680C0EFC</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>cat "{query}"" &gt;&gt; history.txt</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.script</string>
+			<key>uid</key>
+			<string>FD42F0F3-6033-4B23-8806-7D4D9B7579E6</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>62</integer>
+				<key>script</key>
+				<string>echo strtolower( '{query}' );</string>
+				<key>type</key>
+				<integer>1</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E482B633-30A2-4610-AB7C-B798E6864B77</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>EEEED44F-F2C8-40FB-9A13-F80C100F434E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>62</integer>
+				<key>script</key>
+				<string>echo strtolower( '{query}' );</string>
+				<key>type</key>
+				<integer>1</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>9E31EE2E-0F49-461D-951D-3B4DE8672411</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>A6BD6432-3DDD-457D-A54F-CEDCFD9F95E8</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>3BE6E587-3713-455B-8CC7-898EE0E91E6D</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>No modifier key: copy to clipboard
+
+alt+enter: paste
+
+ctrl+enter: copy lowercase version
+
+shift+enter: paste lowercase version</string>
+	<key>uidata</key>
+	<dict>
+		<key>3BE6E587-3713-455B-8CC7-898EE0E91E6D</key>
+		<dict>
+			<key>ypos</key>
+			<real>540</real>
+		</dict>
+		<key>641D445A-DA42-4E1A-9DF9-73BA680C0EFC</key>
+		<dict>
+			<key>ypos</key>
+			<real>120</real>
+		</dict>
+		<key>861F7481-490B-49CA-BBF6-5C3573FFEF70</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+		<key>9E31EE2E-0F49-461D-951D-3B4DE8672411</key>
+		<dict>
+			<key>ypos</key>
+			<real>410</real>
+		</dict>
+		<key>A6BD6432-3DDD-457D-A54F-CEDCFD9F95E8</key>
+		<dict>
+			<key>ypos</key>
+			<real>430</real>
+		</dict>
+		<key>DB57969F-E7E2-4775-B1F3-82AC599836A2</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+		<key>E482B633-30A2-4610-AB7C-B798E6864B77</key>
+		<dict>
+			<key>ypos</key>
+			<real>240</real>
+		</dict>
+		<key>EEEED44F-F2C8-40FB-9A13-F80C100F434E</key>
+		<dict>
+			<key>ypos</key>
+			<real>320</real>
+		</dict>
+		<key>FD42F0F3-6033-4B23-8806-7D4D9B7579E6</key>
+		<dict>
+			<key>ypos</key>
+			<real>220</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>trepmal.com/aflredapp/passphrase</string>
+</dict>
+</plist>
